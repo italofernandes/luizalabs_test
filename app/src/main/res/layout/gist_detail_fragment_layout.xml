@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <ImageView
+            android:id="@+id/detailUserAvatar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            tools:background="@color/black"/>
+
+        <TextView
+            android:id="@+id/detailUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/detailUserAvatar"
+            app:layout_constraintTop_toTopOf="@id/detailUserAvatar"
+            app:layout_constraintBottom_toBottomOf="@id/detailUserAvatar"
+            app:layout_constraintEnd_toStartOf="@+id/detailFavButton"
+            android:layout_marginStart="15dp"
+            android:textSize="15sp"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintHorizontal_bias="0"
+            tools:text="Algum Usuário qualquer"/>
+
+        <TextView
+            android:id="@+id/detailCreateDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/detailUserName"
+            app:layout_constraintTop_toBottomOf="@id/detailUserName"
+            app:layout_constraintBottom_toBottomOf="@id/detailUserAvatar"
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintVertical_bias="0"
+            tools:text="30/06/2020"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/detailFilesList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/detailDescription"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@id/detailDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/detailUserAvatar"
+            app:layout_constraintTop_toBottomOf="@id/detailUserAvatar"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintVertical_bias="0"
+            tools:text="is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"/>
+
+        <ImageView
+            android:id="@id/detailFavButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_favorite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/detailUserAvatar"
+            app:layout_constraintBottom_toBottomOf="@id/detailUserAvatar"
+            android:layout_marginEnd="20dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
+

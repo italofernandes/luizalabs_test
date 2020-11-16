@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gist_navgraph"
+    app:startDestination="@id/gistListFragment">
+    <fragment
+        android:id="@+id/gistListFragment"
+        android:name="br.com.luizalabs.gistvisualizer.presentation.views.GistListFragment"
+        android:label="GistListFragment" >
+        <action
+            android:id="@+id/action_gistListFragment_to_gistDetailFragment"
+            app:destination="@id/gistDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_gistListFragment_to_favoriteGistsFragment"
+            app:destination="@id/favoriteGistsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/gistDetailFragment"
+        android:name="br.com.luizalabs.gistvisualizer.presentation.views.GistDetailFragment"
+        android:label="GistDetailFragment" >
+        <argument
+            android:name="gistItem"
+            app:argType="br.com.luizalabs.gistvisualizer.presentation.models.GistItem" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteGistsFragment"
+        android:name="br.com.luizalabs.gistvisualizer.presentation.views.FavoriteGistsFragment"
+        android:label="FavoriteGistsFragment" />
+
+</navigation>

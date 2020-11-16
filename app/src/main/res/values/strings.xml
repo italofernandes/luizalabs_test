@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Gist Visualizer</string>
+    <string name="gis_search_hint">Informe o nome do Usuário Gist</string>
+    <string name="gist_conm_error">Ocorreu um erro ao se tentar acessar o servidor, Pro favor, verifique sua conexão com a Internet.</string>
+    <string name="gist_no_data_error">Nenhum Gist a ser exibido.</string>
+
+    <string name="gist_bottom_nav_list">Gists</string>
+    <string name="gist_bottom_nav_favorites">Favoritos</string>
+
+</resources>
