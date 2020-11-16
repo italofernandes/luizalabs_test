@@ -7,9 +7,9 @@ import br.com.luizalabs.gistvisualizer.domain.exception.NoGistDataException
 
 class GetAllGistsUseCase(
     private val repository: GistRepository
-): UseCase<List<Gist>>(){
+): UseCaseWithParams<List<Gist>>(){
 
-    var page: Int = 0
+    private var page: Int = 0
 
     override suspend fun execute(): List<Gist> {
         try {
@@ -27,5 +27,9 @@ class GetAllGistsUseCase(
         } catch (e: GistServiceCommunicationException) {
             throw e
         }
+    }
+
+    override fun configures(vararg args: Any) {
+        page = args[0] as Int
     }
 }

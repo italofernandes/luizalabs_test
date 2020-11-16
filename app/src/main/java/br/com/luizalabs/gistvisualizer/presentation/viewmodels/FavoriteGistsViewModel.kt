@@ -5,9 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.luizalabs.gistvisualizer.R
+import br.com.luizalabs.gistvisualizer.commons.BaseConverter
+import br.com.luizalabs.gistvisualizer.domain.entities.Gist
 import br.com.luizalabs.gistvisualizer.domain.exception.NoGistDataException
 import br.com.luizalabs.gistvisualizer.domain.usecases.FavoriteGistUseCase
 import br.com.luizalabs.gistvisualizer.domain.usecases.GetAllFavoriteGistsUseCase
+import br.com.luizalabs.gistvisualizer.domain.usecases.UseCase
+import br.com.luizalabs.gistvisualizer.domain.usecases.UseCaseWithParams
 import br.com.luizalabs.gistvisualizer.presentation.converters.GistItemToGistConverter
 import br.com.luizalabs.gistvisualizer.presentation.converters.ListGistInListGistItemConverter
 import br.com.luizalabs.gistvisualizer.presentation.models.ErrorState
@@ -18,11 +22,11 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
 class FavoriteGistsViewModel(
-    private val dispatcher: CoroutineDispatcher,
-    private val addGistToFavoritesUseCase: FavoriteGistUseCase,
-    private val getAllFavoriteGistsUseCase: GetAllFavoriteGistsUseCase,
-    private val listGistItemConverter: ListGistInListGistItemConverter,
-    private val gistConverter: GistItemToGistConverter,
+        private val dispatcher: CoroutineDispatcher,
+        private val addGistToFavoritesUseCase: UseCaseWithParams<Unit>,
+        private val getAllFavoriteGistsUseCase: UseCase<List<Gist>>,
+        private val listGistItemConverter: BaseConverter<List<Gist>, List<GistItem>>,
+        private val gistConverter: BaseConverter<GistItem, Gist>,
     ) : ViewModel() {
 
     private val _viewState: MutableLiveData<GistListViewState> by lazy { MutableLiveData<GistListViewState>() }
@@ -56,7 +60,8 @@ class FavoriteGistsViewModel(
             val favorite = gistItemList[gistIndex].favorite
 
             gistItemList[gistIndex].favorite = !favorite
-            addGistToFavoritesUseCase.gist = gistConverter.convert(gistItemList[gistIndex])
+
+            addGistToFavoritesUseCase.configures(gistConverter.convert(gistItemList[gistIndex]))
             addGistToFavoritesUseCase.execute()
 
             gistItemList.removeAt(gistIndex)

@@ -9,10 +9,11 @@ import br.com.luizalabs.gistvisualizer.presentation.viewmodels.GistListViewModel
 import kotlinx.coroutines.Dispatchers
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val gistDetailModule = module {
-    viewModel { GistDetailViewModel(Dispatchers.IO, get(), get()) }
+    viewModel { GistDetailViewModel(Dispatchers.IO, get(named(GIST_ITEM_TO_GIST_CONVERTER)), get(named(FAVORITE_GISTS_USE_CASE))) }
 }
 
 @VisibleForTesting

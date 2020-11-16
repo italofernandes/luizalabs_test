@@ -1,17 +1,19 @@
 package br.com.luizalabs.gistvisualizer.data.db
 
+import br.com.luizalabs.gistvisualizer.commons.BaseConverter
 import br.com.luizalabs.gistvisualizer.data.db.converters.GistModelToGistConverter
 import br.com.luizalabs.gistvisualizer.data.db.converters.GistToGistModelConverter
 import br.com.luizalabs.gistvisualizer.data.db.daos.GistDao
 import br.com.luizalabs.gistvisualizer.data.db.daos.GistFileDao
+import br.com.luizalabs.gistvisualizer.data.db.entities.GistWithOwnerAndFile
 import br.com.luizalabs.gistvisualizer.domain.data.datasource.FavoriteGistDataSource
 import br.com.luizalabs.gistvisualizer.domain.entities.Gist
 
 class FavoriteGistDataSourceImpl(
-    private val dao: GistDao,
-    private val fileDao: GistFileDao,
-    private val modelConverter: GistToGistModelConverter,
-    private val gistConverter: GistModelToGistConverter
+        private val dao: GistDao,
+        private val fileDao: GistFileDao,
+        private val modelConverter: BaseConverter<GistWithOwnerAndFile, Gist>,
+        private val gistConverter: BaseConverter<Gist, GistWithOwnerAndFile>
 ) : FavoriteGistDataSource {
 
     override suspend fun getAllSavedGists(): List<Gist> {

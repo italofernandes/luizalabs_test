@@ -5,9 +5,15 @@ import br.com.luizalabs.gistvisualizer.domain.entities.Gist
 
 class SearchGistsByNameUserCase(
     private val repository: GistRepository,
-    var userName: String? = null
-) : UseCase<List<Gist>>(){
+) : UseCaseWithParams<List<Gist>>(){
+
+    private var userName: String? = null
+
     override suspend fun execute(): List<Gist> {
         return repository.getAllGistsByUserName(userName ?: "")
+    }
+
+    override fun configures(vararg args: Any) {
+        userName = args[0] as String
     }
 }

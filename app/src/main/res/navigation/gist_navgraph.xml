@@ -29,6 +29,10 @@
     <fragment
         android:id="@+id/favoriteGistsFragment"
         android:name="br.com.luizalabs.gistvisualizer.presentation.views.FavoriteGistsFragment"
-        android:label="FavoriteGistsFragment" />
+        android:label="FavoriteGistsFragment" >
+        <action
+            android:id="@+id/action_favoriteGistsFragment_to_gistDetailFragment"
+            app:destination="@id/gistDetailFragment" />
+    </fragment>
 
 </navigation>

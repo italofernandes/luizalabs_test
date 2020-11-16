@@ -18,10 +18,10 @@ import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidApplication
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-//TODO REFACTOR TO USE ABSTRACTIONS OS USE CASES AND CONVERTERS INSTEAD OF CONCRETE IMPL
 val retrofitModule = module {
     single { GsonBuilder().setLenient().create() }
     single<GistService> {
@@ -56,8 +56,8 @@ val dataBaseModule = module {
 }
 
 val repoSourceModule = module {
-    single<GistServiceDataSource> { GistServiceDataSourceImpl(get(), get()) }
-    single<FavoriteGistDataSource> { FavoriteGistDataSourceImpl(get(), get(), get(), get()) }
+    single<GistServiceDataSource> { GistServiceDataSourceImpl(get(), get(named(RESPONSE_GIST_TO_GIST_CONVERTER))) }
+    single<FavoriteGistDataSource> { FavoriteGistDataSourceImpl(get(), get(), get(named(GIST_TO_GIST_MODEL_CONVERTER)), get(named(GIST_MODEL_TO_GIST_CONVERTER))) }
     single<GistRepository> { GistRepositoryImpl(get(), get()) }
 }
 

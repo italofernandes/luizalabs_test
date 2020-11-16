@@ -5,23 +5,26 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.luizalabs.gistvisualizer.R
+import br.com.luizalabs.gistvisualizer.commons.BaseConverter
+import br.com.luizalabs.gistvisualizer.domain.entities.Gist
 import br.com.luizalabs.gistvisualizer.domain.exception.GistServiceCommunicationException
 import br.com.luizalabs.gistvisualizer.domain.exception.NoGistDataException
 import br.com.luizalabs.gistvisualizer.domain.usecases.FavoriteGistUseCase
 import br.com.luizalabs.gistvisualizer.domain.usecases.GetAllGistsUseCase
 import br.com.luizalabs.gistvisualizer.domain.usecases.SearchGistsByNameUserCase
+import br.com.luizalabs.gistvisualizer.domain.usecases.UseCaseWithParams
 import br.com.luizalabs.gistvisualizer.presentation.converters.GistItemToGistConverter
 import br.com.luizalabs.gistvisualizer.presentation.converters.ListGistInListGistItemConverter
 import br.com.luizalabs.gistvisualizer.presentation.models.*
 import kotlinx.coroutines.*
 
 class GistListViewModel(
-    private val dispatcher: CoroutineDispatcher,
-    private val listGistItemConverter: ListGistInListGistItemConverter,
-    private val gistConverter: GistItemToGistConverter,
-    private val getAllGistsUseCase: GetAllGistsUseCase,
-    private val addGistToFavoritesUseCase: FavoriteGistUseCase,
-    private val searchGistsByNameUserCase: SearchGistsByNameUserCase
+        private val dispatcher: CoroutineDispatcher,
+        private val listGistItemConverter: BaseConverter<List<Gist>, List<GistItem>>,
+        private val gistConverter: BaseConverter<GistItem, Gist>,
+        private val getAllGistsUseCase: UseCaseWithParams<List<Gist>>,
+        private val addGistToFavoritesUseCase: UseCaseWithParams<Unit>,
+        private val searchGistsByNameUserCase: UseCaseWithParams<List<Gist>>
 ) : ViewModel() {
 
     private val _viewState: MutableLiveData<GistListViewState> by lazy { MutableLiveData<GistListViewState>() }
@@ -44,8 +47,9 @@ class GistListViewModel(
         if(completed) {
             currentJob = viewModelScope.launch(dispatcher) {
 
-                getAllGistsUseCase.page = currentPage
+                getAllGistsUseCase.configures(currentPage)
                 _viewState.postValue(LoadingState(true))
+
                 try {
                     val gists = listGistItemConverter.convert(getAllGistsUseCase.execute())
                     currentPage++
@@ -78,7 +82,7 @@ class GistListViewModel(
         name?.let {ownerName ->
             viewModelScope.launch(dispatcher) {
 
-                searchGistsByNameUserCase.userName = ownerName
+                searchGistsByNameUserCase.configures(ownerName)
                 _viewState.postValue(LoadingState(true))
 
                 try {
@@ -115,7 +119,7 @@ class GistListViewModel(
             val favorite = gistItemList[gistIndex].favorite
 
             gistItemList[gistIndex].favorite = !favorite
-            addGistToFavoritesUseCase.gist = gistConverter.convert(gistItemList[gistIndex])
+            addGistToFavoritesUseCase.configures(gistConverter.convert(gistItemList[gistIndex]))
             addGistToFavoritesUseCase.execute()
             _viewState.postValue(SuccessState(
                 loading = false,

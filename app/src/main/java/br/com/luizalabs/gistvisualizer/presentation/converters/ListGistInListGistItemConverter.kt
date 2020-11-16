@@ -11,9 +11,6 @@ import java.util.*
 
 class ListGistInListGistItemConverter: BaseConverter<List<Gist>, List<GistItem>> {
 
-    private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale("pt-br"))
-    private val parser =  SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale("pt-br"))
-
     override fun convert(from: List<Gist>): List<GistItem> {
         return from.map { gist ->
             GistItem(

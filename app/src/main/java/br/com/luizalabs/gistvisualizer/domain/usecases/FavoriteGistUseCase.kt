@@ -5,9 +5,9 @@ import br.com.luizalabs.gistvisualizer.domain.entities.Gist
 
 class FavoriteGistUseCase(
     private val repository: GistRepository
-): UseCase<Unit>() {
+): UseCaseWithParams<Unit>() {
 
-    var gist: Gist? = null
+    private var gist: Gist? = null
 
     override suspend fun execute() {
         gist?.let {
@@ -22,5 +22,9 @@ class FavoriteGistUseCase(
                 }
             }
         }
+    }
+
+    override fun configures(vararg args: Any) {
+        gist = args[0] as Gist
     }
 }

@@ -4,7 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.luizalabs.gistvisualizer.commons.BaseConverter
+import br.com.luizalabs.gistvisualizer.domain.entities.Gist
 import br.com.luizalabs.gistvisualizer.domain.usecases.FavoriteGistUseCase
+import br.com.luizalabs.gistvisualizer.domain.usecases.UseCaseWithParams
 import br.com.luizalabs.gistvisualizer.presentation.converters.GistItemToGistConverter
 import br.com.luizalabs.gistvisualizer.presentation.models.DetailSuccessViewState
 import br.com.luizalabs.gistvisualizer.presentation.models.GistDetailViewState
@@ -14,9 +17,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class GistDetailViewModel(
-    private val dispatcher: CoroutineDispatcher,
-    private val converter: GistItemToGistConverter,
-    private val favoriteUseCase: FavoriteGistUseCase
+        private val dispatcher: CoroutineDispatcher,
+        private val converter: BaseConverter<GistItem, Gist>,
+        private val favoriteUseCase: UseCaseWithParams<Unit>
 ): ViewModel(){
 
     private val _viewState by lazy { MutableLiveData<GistDetailViewState>() }
@@ -34,7 +37,8 @@ class GistDetailViewModel(
     fun favorite(){
         viewModelScope.launch(dispatcher) {
             gistItem.favorite = !gistItem.favorite
-            favoriteUseCase.gist = converter.convert(gistItem)
+
+            favoriteUseCase.configures(converter.convert(gistItem))
             favoriteUseCase.execute()
 
             _viewState.postValue(DetailSuccessViewState(

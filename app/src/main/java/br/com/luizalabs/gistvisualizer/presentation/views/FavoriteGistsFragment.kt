@@ -50,7 +50,7 @@ class FavoriteGistsFragment() : Fragment(){
         gistAdapter.clickCallBack = {gist ->
             val bundle = bundleOf(GIST_BUNDLE_EXTRA to gist)
             val navController = Navigation.findNavController(view)
-            navController.navigate(R.id.action_gistListFragment_to_gistDetailFragment, bundle)
+            navController.navigate(R.id.action_favoriteGistsFragment_to_gistDetailFragment, bundle)
         }
 
         gistRecyclerView.apply {
